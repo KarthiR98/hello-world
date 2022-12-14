@@ -26,7 +26,7 @@ pipeline {
       openshift.newBuild("--name=build-data-config", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary") 
     } 
     
-    openshift.selector("bc", "build-data-config").startBuild("--from-file=target/simple-servlet-0.0.1-SNAPSHOT.war", "--follow") } }
+    openshift.selector("bc", "build-data-config").startBuild("--from-file=webapp/target/webapp.war", "--follow") } }
 
         }
       }
