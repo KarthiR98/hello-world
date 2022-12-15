@@ -41,7 +41,7 @@ pipeline {
     def deployment = openshift.selector("dc", "gettingreadyconf") 
     
     if(!deployment.exists()){ 
-      openshift.newApp('gettingreadyconf', "--as-deployment-config").narrow('svc').expose() 
+      openshift.newApp('finaldep', "--as-deployment-config").narrow('svc').expose() 
     } 
     
     timeout(5) { 
