@@ -18,15 +18,15 @@ pipeline {
         script {
 
           openshift.withCluster() { 
-  openshift.withProject("loginform") {
+  openshift.withProject("supermarket") {
   
-    def buildConfigExists = openshift.selector("bc", "build-data-config").exists() 
+    def buildConfigExists = openshift.selector("bc", "gettingreadyconf").exists() 
     
     if(!buildConfigExists){ 
-      openshift.newBuild("--name=build-data-config", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary") 
+      openshift.newBuild("--name=gettingreadyconf", "--docker-image=registry.redhat.io/jboss-eap-7/eap74-openjdk8-openshift-rhel7", "--binary") 
     } 
     
-    openshift.selector("bc", "build-data-config").startBuild("--from-file=webapp/target/webapp.war", "--follow") } }
+    openshift.selector("bc", "gettingreadyconf").startBuild("--from-file=webapp/target/webapp.war", "--follow") } }
 
         }
       }
@@ -37,15 +37,15 @@ pipeline {
         script {
 
           openshift.withCluster() { 
-  openshift.withProject("loginform") { 
-    def deployment = openshift.selector("dc", "build-data-config") 
+  openshift.withProject("supermarket") { 
+    def deployment = openshift.selector("dc", "gettingreadyconf") 
     
     if(!deployment.exists()){ 
-      openshift.newApp('build-data-config', "--as-deployment-config").narrow('svc').expose() 
+      openshift.newApp('gettingreadyconf', "--as-deployment-config").narrow('svc').expose() 
     } 
     
     timeout(5) { 
-      openshift.selector("dc", "build-data-config").related('pods').untilEach(1) { 
+      openshift.selector("dc", "gettingreadyconf").related('pods').untilEach(1) { 
         return (it.object().status.phase == "Running") 
       } 
     } 
