@@ -38,14 +38,14 @@ pipeline {
 
           openshift.withCluster() { 
   openshift.withProject("shopmarket") { 
-    def deployment = openshift.selector("dc", "finaldep") 
+    def deployment = openshift.selector("dc", "gettingreadyconf") 
     
     if(!deployment.exists()){ 
-      openshift.newApp('finaldep', "--as-deployment-config").narrow('svc').expose() 
+      openshift.newApp('gettingreadyconf', "--as-deployment-config").narrow('svc').expose() 
     } 
     
     timeout(5) { 
-      openshift.selector("dc", "finaldep").related('pods').untilEach(1) { 
+      openshift.selector("dc", "gettingreadyconf").related('pods').untilEach(1) { 
         return (it.object().status.phase == "Running") 
       } 
     } 
