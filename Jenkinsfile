@@ -18,7 +18,7 @@ pipeline {
         script {
 
           openshift.withCluster() { 
-  openshift.withProject("first-pipeline") {
+  openshift.withProject("pipeline") {
   
     def buildConfigExists = openshift.selector("bc", "gettingreadyconf").exists() 
     
@@ -37,7 +37,7 @@ pipeline {
         script {
 
           openshift.withCluster() { 
-  openshift.withProject("first-pipeline") { 
+  openshift.withProject("pipeline") { 
     def deployment = openshift.selector("dc", "gettingreadyconf") 
     
     if(!deployment.exists()){ 
